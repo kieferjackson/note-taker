@@ -10,7 +10,7 @@ notes.get('/', (req, res) =>
 );
 
 // POST Route for submitting new note
-tips.post('/', (req, res) =>
+notes.post('/', (req, res) =>
 {
     console.log(req.body);
 
@@ -29,3 +29,5 @@ tips.post('/', (req, res) =>
         
     
 });
+
+module.exports = notes;

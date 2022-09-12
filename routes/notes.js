@@ -1,14 +1,19 @@
 const fs = require('fs');
 const notes = require('express').Router();
+const generate_uid = require('generate-unique-id');
 
 const NOTES_FILE = './db/db.json';
+
+console.log('Currently on on the notes.js file...');
 
 // GET Route for retrieving notes
 notes.get('/', (req, res) =>
     {
-        // TODO: Implement file reading
+        console.log(req);
+        console.log('About to read the file data...');
         fs.readFile(NOTES_FILE, 'utf-8', (error, data) =>
         {
+            console.log(data);
             // Check for error, and give a response in JSON if there were no errors
             error ? console.log(error) : res.json(JSON.parse(data));
         });
@@ -28,12 +33,16 @@ notes.post('/', (req, res) =>
         const new_note =
         {
             title,
-            text
+            text,
+            id: generate_uid()
         };
 
+        console.log(new_note);
+        console.log('About to read and append the file with posted content...');
+        
         fs.readFile(NOTES_FILE, 'utf-8', (error, data) =>
         {
-            error ? console.log(error) : (data) =>
+            error ? console.log(error) : () =>
             {
                 const all_notes = JSON.parse(data);
                 all_notes.push(new_note);

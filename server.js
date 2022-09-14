@@ -61,9 +61,13 @@ app.post('/api/notes', (req, res) =>
         fs.readFile(NOTES_FILE, 'utf-8', (error, data) =>
         {
           	console.log(`Checking ${NOTES_FILE} for errors...`);
-			  error ? console.log(error) : () =>
-			  {
-				let all_notes = JSON.parse(data);
+            if(error)
+            {
+                console.log(error)
+            }
+            else
+            {
+                let all_notes = JSON.parse(data);
                 console.log(`Logging the file contents of ${NOTES_FILE}`);
                 console.log(all_notes);
                 all_notes.push(new_note);
@@ -74,8 +78,16 @@ app.post('/api/notes', (req, res) =>
                 fs.writeFile(NOTES_FILE, stringified_notes, (error) =>
 					error ? console.log(error) : console.info('The note was successfully overwritten')
 				);
-			}
+            }
         });
+
+        const response =
+        {
+            status: 'success',
+            body: new_note
+        };
+
+        res.status(201).json(response);
 
 		console.log('Note added successfully');
     }
